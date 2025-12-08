@@ -26,83 +26,108 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('user login')),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            spacing: 16.0,
-            children: [
-              const SizedBox(height: 16.0),
-              // Email Text Input
-              TextFormField(
-                enabled: !_loading,
-                decoration: InputDecoration(label: Text('email')),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'please enter a email'
-                    : null,
-                onChanged: (value) => setState(() => _email = value),
-              ),
-
-              // Password Text Input
-              TextFormField(
-                enabled: !_loading,
-                decoration: InputDecoration(
-                  label: Text('password'),
-                  suffixIcon: UtilityWidgets().visibilityIconButton(
-                    _showPassowrd,
-                    () => setState(() => _showPassowrd = !_showPassowrd),
-                  ),
-                ),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'please enter a password'
-                    : null,
-                onChanged: (value) => setState(() => _password = value),
-                obscureText: !_showPassowrd,
-              ),
-
-              // Sign in with Google Button
-              OutlinedButton(
-                onPressed: _loading ? null : () => _googleSignIn(),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: 18.0,
-                        height: 18.0,
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Image.network(_googleLogoUrl),
-                        ),
-                      ),
-                      const SizedBox(width: 12.0),
-                      const Text('sign in with google'),
-                    ],
-                  ),
-                ),
-              ),
-
-              TextButton(
-                onPressed: _loading ? null : () => widget.toggleView(),
-                child: const Text('create new account'),
-              ),
-
-              if (!_loginSuccess)
-                Text(
-                  'Invalid Credentials'.toUpperCase(),
-                  style: TextStyle(color: Colors.red.shade700),
-                ),
-
-              const SizedBox(height: 8.0),
-              if (_loading)
-                const SizedBox(height: 4.0, child: LinearProgressIndicator()),
-            ],
+      appBar: AppBar(
+        leading: IconButton.outlined(
+          onPressed: () {},
+          icon: Icon(Icons.arrow_back),
+        ),
+        toolbarHeight: 250,
+        flexibleSpace: Align(
+          alignment: Alignment.bottomLeft,
+          child: Padding(
+            padding: const .symmetric(horizontal: 16.0),
+            child: Text(
+              'user login',
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
           ),
         ),
+      ),
+      body: Column(
+        children: [
+          Visibility(
+            visible: _loading,
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: LinearProgressIndicator(),
+          ),
+          Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                spacing: 16.0,
+                children: [
+                  const SizedBox(height: 16.0),
+                  // Email Text Input
+                  TextFormField(
+                    enabled: !_loading,
+                    decoration: InputDecoration(label: Text('email')),
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'please enter a email'
+                        : null,
+                    onChanged: (value) => setState(() => _email = value),
+                  ),
+
+                  // Password Text Input
+                  TextFormField(
+                    enabled: !_loading,
+                    decoration: InputDecoration(
+                      label: Text('password'),
+                      suffixIcon: UtilityWidgets().visibilityIconButton(
+                        _showPassowrd,
+                        () => setState(() => _showPassowrd = !_showPassowrd),
+                      ),
+                    ),
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'please enter a password'
+                        : null,
+                    onChanged: (value) => setState(() => _password = value),
+                    obscureText: !_showPassowrd,
+                  ),
+
+                  // Sign in with Google Button
+                  ElevatedButton(
+                    onPressed: _loading ? null : () => _googleSignIn(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(
+                            width: 18.0,
+                            height: 18.0,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Image.network(_googleLogoUrl),
+                            ),
+                          ),
+                          const SizedBox(width: 12.0),
+                          const Text('sign in with google'),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  TextButton(
+                    onPressed: _loading ? null : () => widget.toggleView(),
+                    child: const Text('create new account'),
+                  ),
+
+                  if (!_loginSuccess)
+                    Text(
+                      'Invalid Credentials'.toUpperCase(),
+                      style: TextStyle(color: Colors.red.shade700),
+                    ),
+
+                  const SizedBox(height: 8.0),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
 
       floatingActionButton: FloatingActionButton.extended(

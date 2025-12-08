@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:keeper/services/auth.dart';
 import 'package:keeper/pages/wrapper.dart';
+import 'package:keeper/themes/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: const Wrapper(),
-        theme: myThemeData(),
+        theme: brutalistTheme,
       ),
     );
   }
@@ -39,7 +40,6 @@ final double _borderRadius = 12.0;
 
 ThemeData myThemeData() {
   return ThemeData(
-    brightness: Brightness.light,
     colorSchemeSeed: Colors.green,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       elevation: 0.0,

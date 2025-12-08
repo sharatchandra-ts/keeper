@@ -20,11 +20,11 @@ class _AuthenticatePageState extends State<AuthenticatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        switchInCurve: Curves.easeOutCubic,
-        switchOutCurve: Curves.easeInCubic,
+        duration: const Duration(milliseconds: 300),
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
         transitionBuilder: (Widget child, Animation<double> animation) =>
-            FadeTransition(opacity: animation, child: child),
+            SizeTransition(sizeFactor: animation, child: child),
         child: _showSignIn
             ? LoginPage(toggleView: _toggleView)
             : RegisterPage(toggleView: _toggleView),
