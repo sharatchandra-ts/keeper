@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:keeper/models/item.dart';
+import 'package:keeper/models/item_snapshot.dart';
 import 'package:keeper/models/user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -16,7 +17,6 @@ class DatabaseService {
         'name': name,
         'phone': phone,
       });
-
       return MyUser(uid: user.id, name: name, email: user.email!, phone: phone);
     } catch (e) {
       debugPrint('Error creating user: $e');
@@ -31,14 +31,7 @@ class DatabaseService {
     try {
       final response = await _supabase
           .from('items')
-          .insert({
-            'owner_id': item.ownerId,
-            'name': item.name,
-            'description': item.description,
-            'location': item.location,
-            'is_locked': item.isLocked,
-            'is_lost': item.isLost,
-          })
+          .insert(item.toDatabase())
           .select()
           .single();
 
@@ -46,6 +39,32 @@ class DatabaseService {
     } catch (e) {
       debugPrint('Error creating item: $e');
       return null;
+    }
+  }
+
+  Future<ItemSnapshot?> createItemSnapshot(ItemSnapshot itemSnapshot) async {
+    try {
+      final response = await _supabase
+          .from('item_snapshots')
+          .insert(itemSnapshot.toDatabase())
+          .select()
+          .single();
+
+      return ItemSnapshot.fromDatabase(response);
+    } catch (e) {
+      debugPrint('Error creating item: $e');
+      return null;
+    }
+  }
+
+  Future updateItem(Item item) async {
+    try {
+      await _supabase
+          .from('items')
+          .update(item.toDatabase())
+          .eq('id', item.id!);
+    } catch (e) {
+      debugPrint('Error creating item: $e');
     }
   }
 

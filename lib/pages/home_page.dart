@@ -1,11 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:keeper/models/item.dart';
-import 'package:keeper/models/user.dart';
-import 'package:keeper/services/auth.dart';
-import 'package:keeper/services/database.dart';
 import 'package:keeper/themes/app_tokens.dart';
+import 'package:keeper/themes/app_typography.dart';
+import 'package:keeper/pages/item_sheet.dart';
+import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
 /// Home screen showing the user's items stream and actions.
@@ -19,175 +20,189 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final myUser = context.watch<MyUser?>();
+    final List<Item>? items = context.watch<List<Item>?>();
+
+    if (items == null) {
+      return Scaffold(body: LinearProgressIndicator());
+    }
 
     return Scaffold(
-      appBar: AppBar(title: Text('keeper'), actions: [MyPopupMenu()]),
-      body: myUser != null
-          ? Padding(
-              padding: const .fromLTRB(8.0, 16.0, 8.0, 0.0),
-              child: Material(
-                shape: RoundedRectangleBorder(
-                  borderRadius: .circular(6.0),
-                  side: AppBorders.thick,
-                ),
-                clipBehavior: .antiAliasWithSaveLayer,
-                child: StreamBuilder<List<Item>>(
-                  stream: DatabaseService().streamItemsForUser(myUser.uid),
-                  builder: (context, asyncSnapshot) {
-                    if (asyncSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (asyncSnapshot.hasError) {
-                      return Center(
-                        child: Text('Error: ${asyncSnapshot.error}'),
-                      );
-                    } else if (!asyncSnapshot.hasData ||
-                        asyncSnapshot.data!.isEmpty) {
-                      return const Center(child: Text('No items found.'));
-                    }
+      body: Column(
+        mainAxisSize: .max,
+        children: [
+          // List of all the items
+          ItemListView(items: items),
 
-                    final List<Item> list = asyncSnapshot.data!;
-                    return MyListViewBuilder(list: list);
-                  },
-                ),
-              ),
-            )
-          : const Center(child: CircularProgressIndicator()),
-      floatingActionButton: FloatingActionButton(
-        onPressed: myUser != null
-            ? () async {
-                Item item = Item(
-                  id: '',
-                  ownerId: myUser.uid,
-                  name: 'Sample Item3',
-                  description: 'This is a sample item description.',
-                  location: 'Sample Location',
-                  isLocked: false,
-                  isLost: false,
-                  createdAt: DateTime.now(),
-                  updatedAt: DateTime.now(),
-                );
+          // Bottom info marquee
+          Container(
+            color: Colors.black,
+            width: .maxFinite,
+            height: 20,
+            child: Marquee(
+              text:
+                  'NO OF ITEMS STORED: ${items.length} :: NO OF ITEMS LOST: ${items.where((item) => item.isLost).length} :: ',
+              style: AppTextStyles.label.copyWith(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
 
-                // Create the item and (optionally) use the returned item
-                // to update local state optimistically.
-                await DatabaseService().createItem(item);
-              }
-            : null,
-        child: Icon(Icons.add_outlined),
+      floatingActionButtonLocation: .centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: FloatingActionButton(
+          onPressed: () => ShowCreateSheet.itemSheetAdd(context),
+          child: Icon(Icons.add_outlined),
+        ),
       ),
     );
   }
 }
 
-class MyPopupMenu extends StatelessWidget {
-  const MyPopupMenu({super.key});
+// This is the list of all the items the home page shows
+class ItemListView extends StatelessWidget {
+  const ItemListView({super.key, required this.items});
+
+  final List<Item> items;
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
-      icon: Icon(Icons.more_vert_outlined),
-      onSelected: (value) {
-        switch (value) {
-          case 0:
-            _showMyDialog(context);
-        }
-      },
-      itemBuilder: (context) => <PopupMenuEntry>[
-        PopupMenuItem(
-          value: 0,
-          child: ListTile(
-            title: Text('logout'),
-            leading: Icon(Icons.logout_outlined),
+    return Expanded(
+      child: Padding(
+        padding: const .fromLTRB(8.0, 16.0, 8.0, 0.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            border: Border(
+              left: AppBorders.thick,
+              right: AppBorders.thick,
+              top: AppBorders.thick,
+            ),
+            borderRadius: .vertical(top: .circular(6.0)),
           ),
-        ),
-        PopupMenuDivider(height: 0),
-        PopupMenuItem(
-          value: 1,
-          child: ListTile(
-            title: Text('settings'),
-            leading: Icon(Icons.settings_outlined),
-          ),
-        ),
-      ],
-    );
-  }
+          child: Material(
+            borderRadius: .vertical(top: .circular(6.0)),
+            clipBehavior: .antiAliasWithSaveLayer,
+            child: items.isNotEmpty
+                ? RefreshIndicator(
+                    onRefresh: () async {
+                      return Future.value();
+                    },
+                    child: ListView.builder(
+                      itemBuilder: (context, index) => MyListTile(
+                        item: items[index],
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            useSafeArea: true,
+                            builder: (dialogContext) => Dialog(
+                              insetPadding: .symmetric(
+                                horizontal: 16.0,
+                                vertical: 56.0,
+                              ),
+                              child: ItemDetailsDialog(
+                                item: items[index],
+                                mainContext: context,
+                              ),
+                            ),
+                          );
 
-  Future<void> _showMyDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      useSafeArea: false,
-      builder: (BuildContext context) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-          child: AlertDialog(
-            title: Row(
-              spacing: 12.0,
-              children: [
-                Icon(Icons.logout, fontWeight: .w900),
-                const Text('logout'),
-              ],
-            ),
-            content: Text(
-              'Are you sure you want to logout? You will need to sign in again to access your items.',
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('CANCEL'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: const Text(
-                  'LOGOUT',
-                  style: .new(color: AppColors.error),
-                ),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  await AuthenticationService().signOut();
-                },
-              ),
-            ],
+                          // ShowCreateSheet.itemSheetUpdate(
+                          //   context,
+                          //   items[index],
+                          // );
+                        },
+                      ),
+                      itemCount: items.length,
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      'No items to see, try adding new items.',
+                      style: AppTextStyles.label,
+                    ),
+                  ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
 
-class MyListViewBuilder extends StatelessWidget {
-  const MyListViewBuilder({super.key, required this.list});
+class ItemDetailsDialog extends StatelessWidget {
+  const ItemDetailsDialog({
+    super.key,
+    required this.item,
+    required this.mainContext,
+  });
 
-  final List<Item> list;
+  final Item item;
+  final BuildContext mainContext;
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        return Future.value();
-      },
-      child: ListView.builder(
-        itemBuilder: (context, index) => MyListTile(item: list[index]),
-        itemCount: list.length,
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+
+      child: Material(
+        borderRadius: AppBorders.soft,
+        clipBehavior: .antiAlias,
+        child: Column(
+          mainAxisSize: .max,
+          children: [
+            AppBar(
+              leading: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(Icons.close),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    ShowCreateSheet.itemSheetUpdate(mainContext, item);
+                  },
+                  icon: Icon(Icons.edit_outlined),
+                ),
+              ],
+              centerTitle: true,
+              title: Text(
+                'item details',
+                style: AppTextStyles.label.copyWith(fontSize: 18.0),
+              ),
+            ),
+            Divider(),
+            Text('item location:: ${item.location}'),
+          ],
+        ),
       ),
     );
   }
 }
 
 class MyListTile extends StatelessWidget {
-  const MyListTile({super.key, required this.item});
+  const MyListTile({super.key, required this.item, required this.onTap});
 
   final Item item;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
+    final date = DateFormat('dd/MM/yy').format(item.updatedAt.toLocal());
+
     return Column(
       children: [
         ListTile(
-          title: Text(item.name),
-          subtitle: Text(item.description),
-          onTap: () {},
+          title: Text(item.name, style: .new(fontSize: 18.0)),
+          subtitle: Column(
+            crossAxisAlignment: .start,
+            children: [
+              Text(item.description.toLowerCase()),
+              Text('::last updated on: $date', style: AppTextStyles.label),
+            ],
+          ),
+          isThreeLine: true,
+
+          onTap: onTap,
         ),
         Divider(),
       ],

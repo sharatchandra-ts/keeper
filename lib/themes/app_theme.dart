@@ -109,6 +109,15 @@ final ThemeData brutalistTheme = ThemeData(
     elevation: 2.0,
   ),
 
+  bottomSheetTheme: .new(
+    backgroundColor: AppColors.white,
+    shape: RoundedRectangleBorder(
+      side: AppBorders.thick,
+      borderRadius: AppBorders.soft,
+    ),
+    elevation: 0.0,
+  ),
+
   dialogTheme: .new(
     contentTextStyle: AppTextStyles.body,
     titleTextStyle: AppTextStyles.heading,
@@ -119,4 +128,8 @@ final ThemeData brutalistTheme = ThemeData(
     ),
     barrierColor: AppColors.acidGreen.withAlpha((255 * 0.8).round()),
   ),
+
+  switchTheme: .new(),
+
+  navigationBarTheme: .new(labelTextStyle: .all(AppTextStyles.label)),
 );

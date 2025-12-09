@@ -1,7 +1,7 @@
 /// A simple data model representing an item owned by a user.
 class Item {
   /// Unique identifier (primary key) for the item.
-  final String id;
+  final String? id;
 
   /// User id of the owner.
   final String ownerId;
@@ -22,20 +22,20 @@ class Item {
   final bool isLost;
 
   /// Creation timestamp from the database.
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Last update timestamp from the database.
   final DateTime updatedAt;
 
   Item({
-    required this.id,
+    this.id,
     required this.ownerId,
     required this.name,
     required this.description,
     required this.location,
     required this.isLocked,
     required this.isLost,
-    required this.createdAt,
+    this.createdAt,
     required this.updatedAt,
   });
 
@@ -62,4 +62,15 @@ class Item {
       isLost = data['is_lost'],
       createdAt = DateTime.parse(data['created_at']),
       updatedAt = DateTime.parse(data['updated_at']);
+
+  /// Converts the model to a map for insertion into Supabase.
+  Map<String, dynamic> toDatabase() => {
+    'owner_id': ownerId,
+    'name': name,
+    'description': description,
+    'location': location,
+    'is_locked': isLocked,
+    'is_lost': isLost,
+    'updated_at': updatedAt.toUtc().toIso8601String(),
+  };
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // COLORS
 class AppColors {
   static const acidGreen = Color(0xFF39D02F);
+  static const neonYellow = Color(0xFFFFFF00);
   static const black = Color(0xFF000000);
   static const white = Color(0xFFFFFFFF);
   static const error = Color(0xFFFF0000);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:keeper/services/auth.dart';
 import 'package:keeper/pages/wrapper.dart';
 import 'package:keeper/themes/app_theme.dart';
@@ -34,35 +33,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
-
-final double _borderRadius = 12.0;
-
-ThemeData myThemeData() {
-  return ThemeData(
-    colorSchemeSeed: Colors.green,
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      elevation: 0.0,
-    ),
-
-    fontFamily: GoogleFonts.robotoMono().fontFamily,
-
-    inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(_borderRadius),
-      ),
-    ),
-    outlinedButtonTheme: OutlinedButtonThemeData(style: myButtonStyle()),
-    textButtonTheme: TextButtonThemeData(style: myButtonStyle()),
-  );
-}
-
-ButtonStyle myButtonStyle() {
-  return ButtonStyle(
-    shape: WidgetStateProperty.all(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_borderRadius),
-      ),
-    ),
-  );
 }
