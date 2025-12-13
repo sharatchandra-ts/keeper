@@ -68,6 +68,18 @@ class DatabaseService {
     }
   }
 
+  Future<void> deleteItemById(String id) async {
+    try {
+      // delete the refernences of the item first
+      // delete all the logs(item snapshots)
+      await _supabase.from('item_snapshots').delete().eq('item_id', id);
+      // then delete the actual item itself
+      await _supabase.from('items').delete().eq('id', id);
+    } catch (e) {
+      debugPrint('Error during deleation: $e');
+    }
+  }
+
   Stream<MyUser?> streamUserFromId(String id) {
     return Supabase.instance.client
         .from('profiles')
@@ -98,6 +110,22 @@ class DatabaseService {
         .handleError((e) {
           debugPrint('Realtime Stream Error fetching items: $e');
           return <Item>[];
+        });
+  }
+
+  Stream<List<ItemSnapshot>> streamItemSnapshotForItem(String itemId) {
+    return Supabase.instance.client
+        .from('item_snapshots')
+        .stream(primaryKey: ['id'])
+        .eq('item_id', itemId)
+        .map((dataList) {
+          return dataList
+              .map((data) => ItemSnapshot.fromDatabase(data))
+              .toList();
+        })
+        .handleError((e) {
+          debugPrint('Realtime Stream Error fetching items: $e');
+          return <ItemSnapshot>[];
         });
   }
 }

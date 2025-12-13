@@ -24,7 +24,7 @@ class ShowCreateSheet {
           filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
           child: DraggableScrollableSheet(
             expand: false,
-            initialChildSize: 0.65,
+            initialChildSize: 0.75,
             minChildSize: 0.6,
             maxChildSize: 1,
             builder: (_, ScrollController scrollController) => AddItemForm(
@@ -52,7 +52,7 @@ class ShowCreateSheet {
           filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
           child: DraggableScrollableSheet(
             expand: false,
-            initialChildSize: 0.65,
+            initialChildSize: 0.75,
             minChildSize: 0.6,
             maxChildSize: 1,
             builder: (_, ScrollController scrollController) => AddItemForm(
@@ -120,9 +120,14 @@ class _AddItemFormState extends State<AddItemForm> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.fromLTRB(
+          24.0,
+          24.0,
+          24.0,
+          24.0 + MediaQuery.of(sheetContext).viewInsets.bottom,
+        ),
         child: ListView(
-          shrinkWrap: true,
+          // shrinkWrap: true,
           controller: widget.scrollController,
           children: [
             Text(
@@ -140,6 +145,7 @@ class _AddItemFormState extends State<AddItemForm> {
                   ? 'please enter a item name'
                   : null,
               onChanged: (value) => _name = value,
+              textInputAction: .next,
             ),
 
             const SizedBox(height: 16.0),
@@ -152,6 +158,7 @@ class _AddItemFormState extends State<AddItemForm> {
                   ? 'please enter a location'
                   : null,
               onChanged: (value) => _loc = value,
+              textInputAction: .next,
             ),
 
             const SizedBox(height: 16.0),
@@ -166,6 +173,7 @@ class _AddItemFormState extends State<AddItemForm> {
               onChanged: (value) => _desc = value,
               maxLines: 2,
               textAlign: .start,
+              textInputAction: .done,
             ),
 
             const SizedBox(height: 16.0),
