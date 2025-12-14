@@ -5,17 +5,17 @@ import 'app_typography.dart';
 final ThemeData brutalistTheme = ThemeData(
   useMaterial3: true,
 
-  scaffoldBackgroundColor: AppColors.acidGreen,
+  scaffoldBackgroundColor: AppColors.primary,
 
   colorScheme: const ColorScheme.light(
-    primary: AppColors.black,
-    onPrimary: AppColors.white,
-    secondary: AppColors.black,
-    onSecondary: AppColors.white,
-    surface: AppColors.white,
-    onSurface: AppColors.black,
+    primary: AppColors.dark,
+    onPrimary: AppColors.light,
+    secondary: AppColors.dark,
+    onSecondary: AppColors.light,
+    surface: AppColors.light,
+    onSurface: AppColors.dark,
     error: AppColors.error,
-    onError: AppColors.white,
+    onError: AppColors.light,
   ),
 
   textTheme: TextTheme(
@@ -26,15 +26,15 @@ final ThemeData brutalistTheme = ThemeData(
   ),
 
   appBarTheme: AppBarTheme(
-    backgroundColor: AppColors.white,
-    foregroundColor: AppColors.black,
+    backgroundColor: AppColors.light,
+    foregroundColor: AppColors.dark,
     elevation: 0,
     centerTitle: false,
     titleTextStyle: AppTextStyles.display,
   ),
 
   cardTheme: .new(
-    color: AppColors.white,
+    color: AppColors.light,
     elevation: 0,
     shape: RoundedRectangleBorder(
       borderRadius: AppBorders.hard,
@@ -42,31 +42,31 @@ final ThemeData brutalistTheme = ThemeData(
     ),
   ),
 
-  dividerTheme: const .new(color: AppColors.black, thickness: 1, space: 0),
+  dividerTheme: const .new(color: AppColors.dark, thickness: 1, space: 0),
 
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: AppColors.white,
+    fillColor: AppColors.light,
     border: OutlineInputBorder(
       borderRadius: AppBorders.hard,
       borderSide: AppBorders.thick,
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: AppBorders.hard,
-      borderSide: .new(color: AppColors.black, width: 3),
+      borderSide: .new(color: AppColors.dark, width: 3),
     ),
   ),
 
-  listTileTheme: .new(tileColor: AppColors.white),
+  listTileTheme: .new(tileColor: AppColors.light),
 
   progressIndicatorTheme: const .new(
-    color: AppColors.black,
+    color: AppColors.dark,
     linearTrackColor: Colors.transparent,
     circularTrackColor: Colors.transparent,
   ),
 
   popupMenuTheme: .new(
-    color: AppColors.white,
+    color: AppColors.light,
     shape: RoundedRectangleBorder(
       borderRadius: (AppBorders.hard),
       side: AppBorders.thick,
@@ -78,8 +78,8 @@ final ThemeData brutalistTheme = ThemeData(
   elevatedButtonTheme: .new(
     style: .new(
       elevation: .all(0),
-      backgroundColor: const WidgetStatePropertyAll(AppColors.black),
-      foregroundColor: const WidgetStatePropertyAll(AppColors.white),
+      backgroundColor: const WidgetStatePropertyAll(AppColors.dark),
+      foregroundColor: const WidgetStatePropertyAll(AppColors.light),
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(borderRadius: AppBorders.hard),
       ),
@@ -104,13 +104,13 @@ final ThemeData brutalistTheme = ThemeData(
   ),
 
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: AppColors.black,
-    foregroundColor: AppColors.white,
+    backgroundColor: AppColors.dark,
+    foregroundColor: AppColors.light,
     elevation: 2.0,
   ),
 
   bottomSheetTheme: .new(
-    backgroundColor: AppColors.white,
+    backgroundColor: AppColors.light,
     shape: RoundedRectangleBorder(
       side: AppBorders.thick,
       borderRadius: AppBorders.soft,
@@ -121,12 +121,12 @@ final ThemeData brutalistTheme = ThemeData(
   dialogTheme: .new(
     contentTextStyle: AppTextStyles.body,
     titleTextStyle: AppTextStyles.heading,
-    backgroundColor: AppColors.white,
+    backgroundColor: AppColors.light,
     shape: RoundedRectangleBorder(
       side: AppBorders.thick,
       borderRadius: AppBorders.soft,
     ),
-    barrierColor: AppColors.acidGreen.withAlpha((255 * 0.8).round()),
+    barrierColor: AppColors.primary.withAlpha((255 * 0.8).round()),
   ),
 
   switchTheme: .new(),

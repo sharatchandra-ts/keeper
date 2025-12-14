@@ -6,34 +6,34 @@ class AppTextStyles {
   static final TextStyle display = GoogleFonts.anton(
     fontSize: AppFont.display,
     fontWeight: FontWeight.w900,
-    color: AppColors.black,
+    color: AppColors.dark,
     letterSpacing: -2,
   );
 
   static final TextStyle displaySmall = GoogleFonts.anton(
     fontSize: AppFont.displaySmall,
     fontWeight: FontWeight.w900,
-    color: AppColors.black,
+    color: AppColors.dark,
     letterSpacing: -2,
   );
 
   static final TextStyle heading = GoogleFonts.anton(
     fontSize: AppFont.h1,
     fontWeight: FontWeight.bold,
-    color: AppColors.black,
+    color: AppColors.dark,
   );
 
   static final TextStyle body = GoogleFonts.robotoMono(
     fontSize: AppFont.body,
     fontWeight: FontWeight.w500,
-    color: AppColors.black,
+    color: AppColors.dark,
     height: 1.2,
   );
 
   static final TextStyle label = GoogleFonts.robotoMono(
     fontSize: AppFont.label,
     fontWeight: FontWeight.bold,
-    color: AppColors.black,
+    color: AppColors.dark,
     letterSpacing: 1,
   );
 }

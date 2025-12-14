@@ -1,0 +1,1 @@
+enum ItemFormMode { add, update }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:keeper/pages/home_page.dart';
+import 'package:keeper/pages/main/home/home_page.dart';
+import 'package:keeper/pages/main/profile/profile_page.dart';
 import 'package:keeper/themes/app_tokens.dart';
 import 'package:keeper/widgets/popup_menu.dart';
 
@@ -17,7 +18,8 @@ class _HomeNavigationState extends State<HomeNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('keeper'), actions: [MyPopupMenu()]),
-      body: const <Widget>[HomePage(), Scaffold(), Scaffold()][_currentPage],
+      body: const <Widget>[HomePage(), Scaffold(), ProfilePage()][_currentPage],
+
       bottomNavigationBar: Material(
         shape: Border(top: AppBorders.thick),
         clipBehavior: .antiAliasWithSaveLayer,
@@ -33,15 +35,15 @@ class _HomeNavigationState extends State<HomeNavigation> {
               selectedIcon: Icon(Icons.home),
             ),
             NavigationDestination(
-              icon: Icon(Icons.people_outline),
+              enabled: false,
+              icon: Icon(Icons.star_outline),
               label: 'PEOPLE',
-              selectedIcon: Icon(Icons.people),
+              selectedIcon: Icon(Icons.star),
             ),
             NavigationDestination(
-              enabled: false,
-              selectedIcon: Icon(Icons.bookmark),
-              icon: Icon(Icons.bookmark_border),
-              label: 'Saved',
+              selectedIcon: Icon(Icons.person_2),
+              icon: Icon(Icons.person_2_outlined),
+              label: 'ME',
             ),
           ],
         ),

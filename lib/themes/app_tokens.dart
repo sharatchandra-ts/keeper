@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 // COLORS
 class AppColors {
-  static const acidGreen = Color(0xFF39D02F);
-  static const neonYellow = Color(0xFFFFFF00);
-  static const black = Color(0xFF000000);
-  static const white = Color(0xFFFFFFFF);
+  static const primary = Color(0xFF39D02F); // acid green
+  static const secondary = Color(0xFFFFFF00); // neon yellow
+  static const dark = Color(0xFF000000);
+  static const light = Color(0xFFFFFFFF);
+  static const onDark = light;
+  static const onLight = dark;
   static const error = Color(0xFFFF0000);
 }
 
@@ -20,9 +22,11 @@ class AppSpacing {
 
 // BORDERS
 class AppBorders {
-  static final hard = BorderRadius.circular(6.0);
-  static final soft = BorderRadius.circular(18.0);
-  static const thick = BorderSide(width: 2, color: AppColors.black);
+  static final hardR = 10.0;
+  static final softR = 18.0;
+  static final hard = BorderRadius.circular(hardR);
+  static final soft = BorderRadius.circular(softR);
+  static const thick = BorderSide(width: 2, color: AppColors.dark);
 }
 
 // FONT CONFIG
