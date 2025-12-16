@@ -27,6 +27,8 @@ class MyPopupMenu extends StatelessWidget {
         ),
         PopupMenuDivider(height: 0),
         PopupMenuItem(
+          enabled: false,
+          onTap: null,
           value: 1,
           child: ListTile(
             title: Text('settings'),

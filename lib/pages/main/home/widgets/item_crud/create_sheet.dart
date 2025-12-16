@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:keeper/enums/item_form_mode.dart';
+import 'package:keeper/enums/app_enums.dart';
 import 'package:keeper/models/item.dart';
 import 'package:keeper/pages/main/home/widgets/item_crud/item_form.dart';
 import 'package:keeper/themes/app_tokens.dart';
@@ -20,9 +20,7 @@ class ShowCreateSheet {
     Item? item,
     required ItemFormMode mode,
   }) {
-    final barrierColor = mode == ItemFormMode.add
-        ? AppColors.primary.withAlpha(200)
-        : AppColors.secondary.withAlpha(200);
+    final barrierColor = AppColors.primary.withAlpha(200);
 
     showModalBottomSheet(
       context: context,

@@ -77,6 +77,7 @@ final ThemeData brutalistTheme = ThemeData(
 
   elevatedButtonTheme: .new(
     style: .new(
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       elevation: .all(0),
       backgroundColor: const WidgetStatePropertyAll(AppColors.dark),
       foregroundColor: const WidgetStatePropertyAll(AppColors.light),

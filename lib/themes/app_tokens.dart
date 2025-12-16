@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 // COLORS
 class AppColors {
-  static const primary = Color(0xFF39D02F); // acid green
+  static const primary = Color(0xFFD0D0D0);
+  //Color(0xFF39D02F); acid green
   static const secondary = Color(0xFFFFFF00); // neon yellow
   static const dark = Color(0xFF000000);
   static const light = Color(0xFFFFFFFF);

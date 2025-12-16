@@ -41,13 +41,17 @@ class ItemDetailsHeader extends StatelessWidget {
             }
           },
           itemBuilder: (_) => [
-            const PopupMenuItem(value: 0, child: AppText('archive')),
+            const PopupMenuItem(
+              enabled: false,
+              value: 0,
+              child: AppText('archive'),
+            ),
             const PopupMenuDivider(height: 0),
             PopupMenuItem(
               value: 1,
               child: AppText(
                 'confirm delete',
-                style: AppTextStyles.label.copyWith(color: AppColors.error),
+                style: AppTextStyles.body.copyWith(color: AppColors.error),
               ),
             ),
           ],

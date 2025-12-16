@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keeper/models/user.dart';
-import 'package:keeper/themes/app_tokens.dart';
+import 'package:keeper/pages/main/profile/profile_info.dart';
+import 'package:keeper/widgets/app_container.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -15,25 +16,7 @@ class ProfilePage extends StatelessWidget {
     }
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-        child: Material(
-          shape: RoundedRectangleBorder(
-            side: AppBorders.thick,
-            borderRadius: AppBorders.hard,
-          ),
-          child: Column(
-            mainAxisSize: .max,
-            children: [
-              Text('name: ${myUser.name}'),
-              Text('email: ${myUser.email}'),
-              Text('phone: ${myUser.phone ?? 'not there'}'),
-              Text('uid: ${myUser.uid}'),
-              SizedBox(width: .maxFinite),
-            ],
-          ),
-        ),
-      ),
+      body: AppContainer(child: ProfileInfo(myUser: myUser)),
     );
   }
 }

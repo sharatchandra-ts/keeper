@@ -46,6 +46,8 @@ dependencies:
   # Assets/Visual dependencies
   google_fonts: ^6.3.3
   marquee: ^2.3.0
+  barcode: ^2.2.9
+  flutter_svg: ^2.2.3
 
 
 dev_dependencies:

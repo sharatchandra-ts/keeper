@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide SearchBar;
 import 'package:keeper/pages/main/home/widgets/item_serch_bar.dart';
 import 'package:keeper/themes/app_tokens.dart';
 import 'package:keeper/themes/app_typography.dart';
+import 'package:keeper/widgets/app_container.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:keeper/models/item.dart';
@@ -18,8 +19,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isSearchOpen = false;
+  final searchController = TextEditingController();
+  final searchFocusNode = FocusNode();
+  String searchQuery = '';
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void makeSearch(String value) =>
+      setState(() => searchQuery = value.toLowerCase());
+
+  void clearSearch() {
+    searchController.clear();
+    setState(() => searchQuery = '');
+    _toggleSearch();
+  }
 
   void _toggleSearch() {
+    if (!_isSearchOpen) {
+      searchFocusNode.requestFocus();
+    } else {
+      searchFocusNode.unfocus();
+    }
     setState(() => _isSearchOpen = !_isSearchOpen);
   }
 
@@ -31,57 +55,43 @@ class _HomePageState extends State<HomePage> {
       return const Scaffold(body: LinearProgressIndicator());
     }
 
+    List<Item> searchResult = searchQuery.isNotEmpty
+        ? items
+              .where((item) => item.name.toLowerCase().contains(searchQuery))
+              .toList()
+        : items;
+
     return GestureDetector(
-      onTap: () => _toggleSearch(),
+      onTap: () => searchFocusNode.unfocus(),
       child: Scaffold(
         body: Stack(
           children: [
             Column(
               children: [
-                Expanded(child: ItemListView(items: items)),
+                Expanded(
+                  child: AppContainer.list(
+                    child: ItemListView(items: searchResult),
+                  ),
+                ),
                 _BottomMarquee(items: items),
               ],
             ),
 
-            _BottomSearch(_isSearchOpen),
+            BottomSearchAnimator(
+              isSearchOpen: _isSearchOpen,
+              searchController: searchController,
+              searchBar: ItemSearchBar(
+                onChanged: makeSearch,
+                onClear: clearSearch,
+                textController: searchController,
+                textFocusNode: searchFocusNode,
+              ),
+            ),
           ],
         ),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: _isSearchOpen ? null : HomeFab(onSearch: _toggleSearch),
-        ),
-      ),
-    );
-  }
-}
-
-class _BottomSearch extends StatelessWidget {
-  const _BottomSearch(this.isSearchOpen);
-  final bool isSearchOpen;
-
-  @override
-  Widget build(BuildContext context) {
-    double padding = 16;
-
-    return Positioned(
-      bottom: 32,
-      right: padding,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOutCubic,
-        height: 56,
-        width: isSearchOpen
-            ? MediaQuery.of(context).size.width - 2 * padding
-            : 0,
-        child: IgnorePointer(
-          // Blocks tap when search not open
-          ignoring: !isSearchOpen,
-          child: AnimatedOpacity(
-            curve: Curves.easeOut,
-            duration: const Duration(milliseconds: 250),
-            opacity: isSearchOpen ? 1 : 0,
-            child: ItemSearchBar(),
-          ),
         ),
       ),
     );
