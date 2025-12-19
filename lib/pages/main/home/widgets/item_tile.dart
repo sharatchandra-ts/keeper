@@ -10,35 +10,89 @@ import 'package:provider/provider.dart';
 
 class ItemTile extends StatelessWidget {
   final Item item;
-  const ItemTile({super.key, required this.item});
+  final String searchQuery;
+
+  const ItemTile({super.key, required this.item, required this.searchQuery});
 
   @override
   Widget build(BuildContext context) {
     final date = DateFormat('dd/MM/yy').format(item.updatedAt.toLocal());
+    final isOutdated =
+        DateTime.now().difference(item.updatedAt) > const Duration(days: 50);
 
-    return ListTile(
-      title: AppText(
-        item.name,
-        style: AppTextStyles.label.copyWith(fontSize: 18.0),
-      ),
-      subtitle: Column(
-        crossAxisAlignment: .start,
+    return IntrinsicHeight(
+      child: Row(
         children: [
-          AppText(
-            item.description.toLowerCase(),
-            style: AppTextStyles.body.copyWith(
-              color: AppColors.onLight.withAlpha(180),
+          Expanded(
+            child: _MyListTile(
+              item: item,
+              searchQuery: searchQuery,
+              date: date,
             ),
           ),
-          AppText('::last updated on: $date'),
+
+          item.isLost
+              ? Container(width: 5, color: AppColors.error)
+              : Container(),
+
+          isOutdated
+              ? Container(width: 5, color: Colors.yellowAccent)
+              : Container(),
+
+          item.isLocked
+              ? Container(width: 5, color: AppColors.accent)
+              : Container(),
         ],
       ),
-      isThreeLine: true,
-      onTap: () => showDialog(
-        context: context,
-        builder: (_) => Provider.value(
-          value: context.read<MyUser?>(),
-          child: ItemDetailsDialog(item: item),
+    );
+  }
+}
+
+class _MyListTile extends StatelessWidget {
+  const _MyListTile({
+    required this.item,
+    required this.searchQuery,
+    required this.date,
+  });
+
+  final Item item;
+  final String searchQuery;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.background,
+      child: InkWell(
+        onTap: () => showDialog(
+          context: context,
+          builder: (_) => Provider.value(
+            value: context.read<MyUser?>(),
+            child: ItemDetailsDialog(item: item),
+          ),
+        ),
+        child: Padding(
+          padding: const .symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppText.highlighted(
+                item.name,
+                searchQuery,
+                style: AppTextStyles.titleMedium,
+                highlightedStyle: AppTextStyles.titleMedium.copyWith(
+                  backgroundColor: AppColors.secondary,
+                ),
+              ),
+              const SizedBox(height: 4),
+              AppText(item.description.toLowerCase()),
+              const SizedBox(height: 4),
+              AppText(
+                '::last updated on: $date',
+                style: AppTextStyles.labelLarge,
+              ),
+            ],
+          ),
         ),
       ),
     );

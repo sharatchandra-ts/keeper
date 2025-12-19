@@ -7,34 +7,78 @@ final ThemeData brutalistTheme = ThemeData(
 
   scaffoldBackgroundColor: AppColors.primary,
 
-  colorScheme: const ColorScheme.light(
-    primary: AppColors.dark,
-    onPrimary: AppColors.light,
-    secondary: AppColors.dark,
-    onSecondary: AppColors.light,
-    surface: AppColors.light,
-    onSurface: AppColors.dark,
+  colorScheme: const .new(
+    brightness: Brightness.light,
+
+    // Brand
+    primary: AppColors.primary,
+    onPrimary: AppColors.black,
+
+    secondary: AppColors.secondary,
+    onSecondary: AppColors.black,
+
+    tertiary: AppColors.accent,
+    onTertiary: AppColors.black,
+
+    // Surfaces
+    surface: AppColors.surface,
+    onSurface: AppColors.textPrimary,
+
+    // States
     error: AppColors.error,
-    onError: AppColors.light,
+    onError: AppColors.white,
+
+    // Containers (required)
+    primaryContainer: AppColors.gray100,
+    onPrimaryContainer: AppColors.textPrimary,
+
+    secondaryContainer: AppColors.gray300,
+    onSecondaryContainer: AppColors.textPrimary,
+
+    tertiaryContainer: AppColors.accent,
+    onTertiaryContainer: AppColors.black,
+
+    errorContainer: AppColors.error,
+    onErrorContainer: AppColors.white,
   ),
 
   textTheme: TextTheme(
-    displayLarge: AppTextStyles.display,
-    headlineLarge: AppTextStyles.heading,
-    bodyLarge: AppTextStyles.body,
-    labelLarge: AppTextStyles.label,
+    // DISPLAY
+    displayLarge: AppTextStyles.displayLarge,
+    displayMedium: AppTextStyles.displayMedium,
+    displaySmall: AppTextStyles.displaySmall,
+
+    // HEADLINES
+    headlineLarge: AppTextStyles.h1,
+    headlineMedium: AppTextStyles.h2,
+    headlineSmall: AppTextStyles.h3,
+
+    // TITLES
+    titleLarge: AppTextStyles.titleLarge,
+    titleMedium: AppTextStyles.titleMedium,
+    titleSmall: AppTextStyles.titleSmall,
+
+    // BODY
+    bodyLarge: AppTextStyles.bodyLarge,
+    bodyMedium: AppTextStyles.bodyMedium,
+    bodySmall: AppTextStyles.bodySmall,
+
+    // LABELS
+    labelLarge: AppTextStyles.labelLarge,
+    labelMedium: AppTextStyles.labelMedium,
+    labelSmall: AppTextStyles.labelSmall,
   ),
 
   appBarTheme: AppBarTheme(
-    backgroundColor: AppColors.light,
-    foregroundColor: AppColors.dark,
+    backgroundColor: AppColors.white,
+    foregroundColor: AppColors.black,
     elevation: 0,
     centerTitle: false,
-    titleTextStyle: AppTextStyles.display,
+    titleTextStyle: AppTextStyles.displayLarge,
   ),
 
   cardTheme: .new(
-    color: AppColors.light,
+    color: AppColors.white,
     elevation: 0,
     shape: RoundedRectangleBorder(
       borderRadius: AppBorders.hard,
@@ -42,31 +86,36 @@ final ThemeData brutalistTheme = ThemeData(
     ),
   ),
 
-  dividerTheme: const .new(color: AppColors.dark, thickness: 1, space: 0),
+  dividerTheme: const .new(color: AppColors.black, thickness: 1, space: 0),
 
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: AppColors.light,
+    fillColor: AppColors.white,
+    labelStyle: AppTextStyles.labelLarge,
     border: OutlineInputBorder(
       borderRadius: AppBorders.hard,
       borderSide: AppBorders.thick,
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: AppBorders.hard,
-      borderSide: .new(color: AppColors.dark, width: 3),
+      borderSide: .new(color: AppColors.black, width: 3),
     ),
   ),
 
-  listTileTheme: .new(tileColor: AppColors.light),
+  listTileTheme: .new(
+    tileColor: AppColors.white,
+    titleTextStyle: AppTextStyles.titleMedium,
+    subtitleTextStyle: AppTextStyles.bodyMedium,
+  ),
 
   progressIndicatorTheme: const .new(
-    color: AppColors.dark,
+    color: AppColors.black,
     linearTrackColor: Colors.transparent,
     circularTrackColor: Colors.transparent,
   ),
 
   popupMenuTheme: .new(
-    color: AppColors.light,
+    color: AppColors.white,
     shape: RoundedRectangleBorder(
       borderRadius: (AppBorders.hard),
       side: AppBorders.thick,
@@ -79,12 +128,11 @@ final ThemeData brutalistTheme = ThemeData(
     style: .new(
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       elevation: .all(0),
-      backgroundColor: const WidgetStatePropertyAll(AppColors.dark),
-      foregroundColor: const WidgetStatePropertyAll(AppColors.light),
+      backgroundColor: const WidgetStatePropertyAll(AppColors.black),
+      foregroundColor: const WidgetStatePropertyAll(AppColors.white),
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(borderRadius: AppBorders.hard),
       ),
-      textStyle: WidgetStatePropertyAll(AppTextStyles.label),
     ),
   ),
   outlinedButtonTheme: .new(
@@ -92,7 +140,6 @@ final ThemeData brutalistTheme = ThemeData(
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(borderRadius: AppBorders.hard),
       ),
-      textStyle: WidgetStatePropertyAll(AppTextStyles.label),
     ),
   ),
   textButtonTheme: .new(
@@ -100,18 +147,17 @@ final ThemeData brutalistTheme = ThemeData(
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(borderRadius: AppBorders.hard),
       ),
-      textStyle: WidgetStatePropertyAll(AppTextStyles.label),
     ),
   ),
 
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: AppColors.dark,
-    foregroundColor: AppColors.light,
+    backgroundColor: AppColors.black,
+    foregroundColor: AppColors.white,
     elevation: 2.0,
   ),
 
   bottomSheetTheme: .new(
-    backgroundColor: AppColors.light,
+    backgroundColor: AppColors.white,
     shape: RoundedRectangleBorder(
       side: AppBorders.thick,
       borderRadius: AppBorders.soft,
@@ -120,9 +166,9 @@ final ThemeData brutalistTheme = ThemeData(
   ),
 
   dialogTheme: .new(
-    contentTextStyle: AppTextStyles.body,
-    titleTextStyle: AppTextStyles.heading,
-    backgroundColor: AppColors.light,
+    contentTextStyle: AppTextStyles.bodyLarge,
+    titleTextStyle: AppTextStyles.titleLarge,
+    backgroundColor: AppColors.white,
     shape: RoundedRectangleBorder(
       side: AppBorders.thick,
       borderRadius: AppBorders.soft,
@@ -132,5 +178,5 @@ final ThemeData brutalistTheme = ThemeData(
 
   switchTheme: .new(),
 
-  navigationBarTheme: .new(labelTextStyle: .all(AppTextStyles.label)),
+  navigationBarTheme: .new(labelTextStyle: .all(AppTextStyles.labelMedium)),
 );

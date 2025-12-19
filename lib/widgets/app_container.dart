@@ -40,16 +40,13 @@ class AppContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.light,
-          border: border,
-          borderRadius: radius,
-        ),
-        child: ClipRRect(borderRadius: radius, child: child),
+    return Container(
+      decoration: BoxDecoration(
+        border: border,
+        borderRadius: radius,
+        color: AppColors.white,
       ),
+      child: ClipRRect(borderRadius: radius, child: child),
     );
   }
 }

@@ -16,7 +16,10 @@ class ProfilePage extends StatelessWidget {
     }
 
     return Scaffold(
-      body: AppContainer(child: ProfileInfo(myUser: myUser)),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: AppContainer(child: ProfileInfo(myUser: myUser)),
+      ),
     );
   }
 }

@@ -11,11 +11,11 @@ class ItemLogList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (logs == null) {
-      return const AppText('loading...');
+      return AppText('loading...');
     }
 
     if (logs!.isEmpty) {
-      return const AppText('no logs yet');
+      return AppText('no logs yet');
     }
 
     return Column(

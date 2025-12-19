@@ -22,7 +22,7 @@ class ItemDetailsHeader extends StatelessWidget {
       ),
       title: AppText(
         'item details',
-        style: AppTextStyles.label.copyWith(fontSize: 18),
+        style: AppTextStyles.titleSmall.copyWith(fontSize: 18),
       ),
       actions: [
         IconButton(
@@ -41,17 +41,13 @@ class ItemDetailsHeader extends StatelessWidget {
             }
           },
           itemBuilder: (_) => [
-            const PopupMenuItem(
-              enabled: false,
-              value: 0,
-              child: AppText('archive'),
-            ),
+            PopupMenuItem(enabled: false, value: 0, child: AppText('archive')),
             const PopupMenuDivider(height: 0),
             PopupMenuItem(
               value: 1,
               child: AppText(
                 'confirm delete',
-                style: AppTextStyles.body.copyWith(color: AppColors.error),
+                style: AppTextStyles.bodySmall.copyWith(color: AppColors.error),
               ),
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide SearchBar;
 import 'package:keeper/pages/main/home/widgets/item_serch_bar.dart';
+import 'package:keeper/pages/main/home/widgets/sort_popup_menu.dart';
 import 'package:keeper/themes/app_tokens.dart';
 import 'package:keeper/themes/app_typography.dart';
 import 'package:keeper/widgets/app_container.dart';
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void makeSearch(String value) =>
-      setState(() => searchQuery = value.toLowerCase());
+      setState(() => searchQuery = value.toLowerCase().trim());
 
   void clearSearch() {
     searchController.clear();
@@ -55,12 +56,6 @@ class _HomePageState extends State<HomePage> {
       return const Scaffold(body: LinearProgressIndicator());
     }
 
-    List<Item> searchResult = searchQuery.isNotEmpty
-        ? items
-              .where((item) => item.name.toLowerCase().contains(searchQuery))
-              .toList()
-        : items;
-
     return GestureDetector(
       onTap: () => searchFocusNode.unfocus(),
       child: Scaffold(
@@ -68,9 +63,19 @@ class _HomePageState extends State<HomePage> {
           children: [
             Column(
               children: [
+                SizedBox(height: 16.0),
+
+                _HeaderWidget(),
+
                 Expanded(
-                  child: AppContainer.list(
-                    child: ItemListView(items: searchResult),
+                  child: Padding(
+                    padding: .fromLTRB(8.0, 0.0, 8.0, 0.0),
+                    child: AppContainer.list(
+                      child: ItemListView(
+                        items: items,
+                        searchQuery: searchQuery,
+                      ),
+                    ),
                   ),
                 ),
                 _BottomMarquee(items: items),
@@ -98,6 +103,33 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+class _HeaderWidget extends StatelessWidget {
+  const _HeaderWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: .fromLTRB(8.0, 0.0, 8.0, 8.0),
+      child: AppContainer(
+        child: Padding(
+          padding: const .symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'ITEMS DATA',
+                  style: AppTextStyles.h1.copyWith(color: AppColors.gray900),
+                ),
+              ),
+              SortPopupMenu(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _BottomMarquee extends StatelessWidget {
   final List<Item> items;
   const _BottomMarquee({required this.items});
@@ -110,7 +142,7 @@ class _BottomMarquee extends StatelessWidget {
       child: Marquee(
         text:
             'NO OF ITEMS STORED: ${items.length} :: NO OF ITEMS LOST: ${items.where((i) => i.isLost).length} :: ',
-        style: AppTextStyles.label.copyWith(color: AppColors.onDark),
+        style: AppTextStyles.labelMedium.copyWith(color: AppColors.textOnDark),
       ),
     );
   }

@@ -5,3 +5,5 @@ enum ButtonType { normal, large, passowrdSeek }
 enum SocialType { google, github }
 
 enum ContainerType { normal, list }
+
+enum TextType { normal, highlighted }

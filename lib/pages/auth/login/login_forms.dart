@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:keeper/pages/auth/login/login_fields.dart';
 import 'package:keeper/pages/auth/widgets/auth_social_buttons.dart';
 import 'package:keeper/services/auth.dart';
+import 'package:keeper/themes/app_typography.dart';
 import 'package:keeper/widgets/app_buttons.dart';
+import 'package:keeper/widgets/app_text.dart';
 
 class LoginForm extends StatefulWidget {
   final bool loading;
@@ -57,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
 
           AppButton.large(
             onPressed: widget.loading ? null : _login,
-            child: Text('login'),
+            child: AppText('login'),
           ),
 
           const SizedBox(height: 3),
@@ -72,11 +74,14 @@ class _LoginFormState extends State<LoginForm> {
 
           TextButton(
             onPressed: widget.toggleView,
-            child: const Text('create new account'),
+            child: AppText(
+              'create new account',
+              style: AppTextStyles.labelLarge,
+            ),
           ),
 
           if (!success)
-            Text(
+            AppText(
               'INVALID CREDENTIALS',
               style: TextStyle(color: Colors.red.shade700),
             ),

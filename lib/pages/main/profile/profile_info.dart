@@ -29,10 +29,7 @@ class ProfileInfo extends StatelessWidget {
         mainAxisSize: .max,
         children: [
           AppText('name:'),
-          AppText(
-            myUser.name,
-            style: AppTextStyles.body.copyWith(fontSize: 22),
-          ),
+          AppText(myUser.name, style: AppTextStyles.titleLarge),
           SizedBox(height: spacing),
 
           AppText('email: \n${myUser.email}'),

@@ -48,7 +48,7 @@ class ItemDetailsBody extends StatelessWidget {
       children: [
         AppText(
           '$title\n${value.toLowerCase()}',
-          style: AppTextStyles.label.copyWith(fontSize: 16),
+          style: AppTextStyles.titleSmall,
         ),
         const Divider(height: 32),
       ],

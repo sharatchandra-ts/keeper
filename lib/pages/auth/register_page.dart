@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:keeper/pages/auth/widgets/auth_social_buttons.dart';
 import 'package:keeper/services/auth.dart';
 import 'package:keeper/services/database.dart';
+import 'package:keeper/themes/app_typography.dart';
+import 'package:keeper/widgets/app_text.dart';
 import 'package:keeper/widgets/utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -47,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 alignment: Alignment.bottomLeft,
                 child: Padding(
                   padding: const .symmetric(horizontal: 16.0),
-                  child: Text(
+                  child: AppText(
                     'create user',
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
@@ -75,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           autofocus: true,
                           enabled: !_loading,
                           decoration: InputDecoration(
-                            label: Text('full name*'),
+                            label: AppText('full name*'),
                           ),
                           validator: (value) => value == null || value.isEmpty
                               ? 'please enter a name'
@@ -90,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Email Text Input
                         TextFormField(
                           enabled: !_loading,
-                          decoration: InputDecoration(label: Text('email*')),
+                          decoration: InputDecoration(label: AppText('email*')),
                           validator: (value) => value == null || value.isEmpty
                               ? 'please enter a email'
                               : null,
@@ -105,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextFormField(
                           enabled: !_loading,
                           decoration: InputDecoration(
-                            label: Text('phone no'),
+                            label: AppText('phone no'),
                             counterText: '',
                           ),
                           onChanged: (value) => setState(() => _phone = value),
@@ -119,7 +122,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Password Text Input
                         TextFormField(
                           enabled: !_loading,
-                          decoration: InputDecoration(label: Text('password*')),
+                          decoration: InputDecoration(
+                            label: AppText('password*'),
+                          ),
                           validator: (value) =>
                               value!.length < 8 || value.isEmpty
                               ? 'password must be at least 8 characters long'
@@ -136,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           scrollPadding: EdgeInsets.only(bottom: 30),
                           enabled: !_loading,
                           decoration: InputDecoration(
-                            label: Text('confirm password*'),
+                            label: AppText('confirm password*'),
                             suffixIcon: UtilityWidgets().visibilityIconButton(
                               _showPassowrd,
                               () => setState(
@@ -173,65 +178,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
                         const SizedBox(height: 3.0),
 
-                        // Sign in with Google Button
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: _loading
-                              ? null
-                              : () {
-                                  // implement google sign-in logic here
-                                },
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                SizedBox(
-                                  width: 18.0,
-                                  height: 18.0,
-                                  child: FittedBox(
-                                    fit: BoxFit.contain,
-                                    child: Image.network(_googleLogoUrl),
-                                  ),
-                                ),
-                                const SizedBox(width: 12.0),
-                                const Text('sign in with google'),
-                              ],
-                            ),
-                          ),
-                        ),
+                        AuthSocialButtons.google(disabled: _loading),
 
                         const SizedBox(height: 3.0),
 
-                        // Sign in with Github Button
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: _loading ? null : null,
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                SizedBox(
-                                  width: 18.0,
-                                  height: 18.0,
-                                  child: Image.network(
-                                    fit: .contain,
-                                    'https://img.icons8.com/ios11/512/FFFFFF/github.png',
-                                  ),
-                                ),
-                                const SizedBox(width: 12.0),
-                                const Text('sign in with github'),
-                              ],
-                            ),
-                          ),
-                        ),
+                        AuthSocialButtons.github(disabled: _loading),
 
                         const SizedBox(height: 8.0),
 
@@ -239,14 +190,18 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: _loading
                               ? null
                               : () => widget.toggleView(),
-                          child: const Text('login to existing account'),
+                          child: AppText(
+                            'login to existing account',
+
+                            style: AppTextStyles.labelLarge,
+                          ),
                         ),
 
                         const SizedBox(height: 16.0),
 
                         _registerSuccess
                             ? Container()
-                            : Text(
+                            : AppText(
                                 _errorMessage.toUpperCase(),
                                 style: TextStyle(color: Colors.red.shade700),
                               ),
