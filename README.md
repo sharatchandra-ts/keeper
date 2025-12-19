@@ -28,6 +28,10 @@ samples, guidance on mobile development, and a full API reference.
 	data the `Wrapper` widget uses a `StreamBuilder` and passes the resolved
 	`MyUser` down via a `Provider`.
 
+<img height="1000" alt="Simulator Screenshot - iPhone 16e - 2025-12-19 at 22 14 48" src="https://github.com/user-attachments/assets/b62d31f8-ea4e-477f-90be-318be3039f04" />
+<img height="1000" alt="Simulator Screenshot - iPhone 16e - 2025-12-19 at 22 15 06" src="https://github.com/user-attachments/assets/73e9ae85-fd70-4326-89f7-6eb670cbf778" />
+
+
 ## Quick Commands
 
 Run the app:
